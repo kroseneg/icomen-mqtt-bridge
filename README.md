@@ -32,8 +32,6 @@ Also, this method would make it possible to connect the bridge to the icomen clo
 This is a planned feature which is not implemented yet.
 
 
-Currently you need to set the listener_first_ip (see icomen.py) to the IP of your local server.
-
 Here are some hints for configuring your DNS (see hostnames in 1. and 3.).
 The queried hosts are taken from the ALDI version of the plug, other hardware may connect to other hosts.
 

@@ -25,7 +25,9 @@ mqtt_username = ""
 mqtt_password = ""
 
 
-listener_first_ip   = '18.185.112.221'
+# This is the originally used first IP, but let's listen on all interfaces.
+#listener_first_ip   = '18.185.112.221'
+listener_first_ip   = '0.0.0.0'
 listener_first_port = 7531
 # The oniginally used second IP is the following, but also use the first one
 # for the second listener, for making our life easier.
@@ -165,11 +167,15 @@ class IComenCommandHandler:
 		debug_print("COMMAND[{}] DATA[{}]".format(command, data))
 		if self.plug is not None:
 
+			second_ip = listener_second_ip
+			if (second_ip == '0.0.0.0'):
+				second_ip = self.plug.localIP
+
 			self.plug.send_data(unhexlify(b""
 				+b"41"					# Command
 #				+b"34187130"			# IP
 #				+b"1d6d"					# Port
-				+hexlify(socket.inet_aton(listener_second_ip))			# IP
+				+hexlify(socket.inet_aton(second_ip))			# IP
 				+hexlify(listener_second_port.to_bytes(2, "big"))			# Port
 			), response=True)
 
@@ -298,6 +304,8 @@ class IComenPlug:
 	def __init__(self, master, socket):
 		self.master = master
 		self.socket = socket
+
+		self.localIP = socket.getsockname()[0]
 
 
 	def dict_mqtt_command_map(self):
