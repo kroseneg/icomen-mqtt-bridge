@@ -306,6 +306,7 @@ class IComenPlug:
 		self.socket = socket
 
 		self.localIP = socket.getsockname()[0]
+		self.remoteIP = socket.getpeername()[0]
 
 
 	def dict_mqtt_command_map(self):
@@ -451,14 +452,14 @@ class IComenPlug:
 
 
 	def send_raw(self, data):
-		debug_print("IComenPlug:  SEND to s[{}]...".format(self.socket.getpeername()))
+		debug_print("IComenPlug:  SEND to s[{}]...".format(self.remoteIP))
 		debug_print("IComenPlug:   -> DATA[{}]".format(hexlify(data)))
 		self.master.send(self.socket, data)
 
 
 	def send(self, head, body):
 		body_crypted = AESCipher(self.key).encrypt(body)
-		debug_print("IComenPlug:  SEND to s[{}]...".format(self.socket.getpeername()))
+		debug_print("IComenPlug:  SEND to s[{}]...".format(self.remoteIP))
 		debug_print("IComenPlug:   -> HEAD[{}] BODY[{}]".format(hexlify(head), hexlify(body)))
 		debug_print("IComenPlug:   -> HEAD[{}] BODY[{}]".format(hexlify(head), hexlify(body_crypted)))
 		self.verbose_raw_packet(False, head, body, b"------------")
@@ -575,7 +576,7 @@ class IComen:
 				except queue.Empty:
 					self.outputs.remove(s)
 				else:
-					debug_print("IComen:  SEND  to s[{}] DATA[{}]".format(s.getpeername(), hexlify(next_msg)))
+					debug_print("IComen:  SEND  to s[{}] DATA[{}]".format(self.plugs[s].remoteIP, hexlify(next_msg)))
 					s.send(next_msg)
 
 			for s in exceptional:
@@ -587,18 +588,23 @@ class IComen:
 
 
 	def send(self, s, data):
-		debug_print("IComen:  QUEUE to s[{}] DATA[{}]".format(s.getpeername(), hexlify(data)))
-		s.send(data)
+		try:
+			debug_print("IComen:  QUEUE to s[{}] DATA[{}]".format(self.plugs[s].remoteIP, hexlify(data)))
+			s.send(data)
+		except OSError:
+			debug_print("Closing listener {}".format(self.plugs[s].localIP))
+			s.close()
+			self.listener.remove(s)
 
 
 	def disconnect_all(self):
 		for s in self.listener:
-			debug_print("Closing listener {}".format(s.getsockname()))
+			debug_print("Closing listener {}".format(self.plugs[s].localIP))
 			s.close()
 			self.listener.remove(s)
 
 		for s in self.inputs:
-			debug_print("Closing socket {}".format(s.getpeername()))
+			debug_print("Closing socket {}".format(self.plugs[s].remoteIP))
 			s.close()
 			self.inputs.remove(s)
 
