@@ -94,27 +94,30 @@ The payload is encrypted in the packet, description is for decrypted payload
     - 8 bytes padding: 0x08 0x08 0x08 0x08 0x08 0x08 0x08 0x08
 
 
-| Command | Type     | Direction | Data lendth | Description       |
-| -------:| -------- | --------- | -----------:| ----------------  |
-|    0x02 | Request  | to Plug   |     4 Bytes | Set switch state  |
-|         | Response | from Plug |     4 Bytes |                   |
-|         |          |           |             |                   |
-|    0x06 |          | from Plug |     4 Bytes | Switch state info |
-|         |          |           |             |                   |
-|    0x08 | Request  | to Plug   |     ? Bytes | Set slave state   |
-|         | Response | from Plug |     ? Bytes |                   |
-|         |          |           |             |                   |
-|    0x41 | Request  | from Plug |         --- | Change Server     |
-|         | Response | to Plug   |     6 Bytes |                   |
-|         |          |           |             |                   |
-|    0x42 | Request  | from Plug |         --- | Encryption key    |
-|         | Response | to Plug   |    17 Bytes |                   |
-|         |          |           |             |                   |
-|    0x44 | Request  | from Plug |         --- | Heartbeat         |
-|         | Response | to Plug   |     6 Bytes |                   |
-|         |          |           |             |                   |
-|    0x61 | Request  | from Plug |         --- | Timestamp         |
-|         | Response | to Plug   |     4 Bytes |                   |
-|         |          |           |             |                   |
+| Command | Type     | Direction | Data length | Description           |
+| -------:| -------- | --------- | -----------:| --------------------  |
+|    0x01 | Request  | to Plug   |     4 Bytes | Set switch state      |
+|         | Response | from Plug |     4 Bytes |                       |
+|         |          |           |             |                       |
+|    0x02 | Request  | to Plug   |     4 Bytes | Request switch state  |
+|         | Response | from Plug |     4 Bytes |                       |
+|         |          |           |             |                       |
+|    0x06 |          | from Plug |     4 Bytes | Switch state info     |
+|         |          |           |             |                       |
+|    0x08 | Request  | to Plug   |     ? Bytes | Set slave state       |
+|         | Response | from Plug |     ? Bytes |                       |
+|         |          |           |             |                       |
+|    0x41 | Request  | from Plug |         --- | Change Server         |
+|         | Response | to Plug   |     6 Bytes |                       |
+|         |          |           |             |                       |
+|    0x42 | Request  | from Plug |         --- | Encryption key        |
+|         | Response | to Plug   |    17 Bytes |                       |
+|         |          |           |             |                       |
+|    0x44 | Request  | from Plug |         --- | Heartbeat             |
+|         | Response | to Plug   |     6 Bytes |                       |
+|         |          |           |             |                       |
+|    0x61 | Request  | from Plug |         --- | Timestamp             |
+|         | Response | to Plug   |     4 Bytes |                       |
+|         |          |           |             |                       |
 
 

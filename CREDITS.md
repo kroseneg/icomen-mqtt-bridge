@@ -1,6 +1,6 @@
 # Credits
 
-I want to thank everyone who provided information about the 
+I want to thank everyone who provided information about the
 plugs, the protocol and the used encryption of the data.
 See details in the links below.
 
