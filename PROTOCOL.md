@@ -1,7 +1,7 @@
 # Protocol description
 
 Everything listed here is reverse engineered by me or taken from informations
-posted on some websites or forums (see [ATTRIBUTION.md](ATTRIBUTION.md))
+posted on some websites or forums (see [CREDITS.md](CREDITS.md))
 
 
 ## Packet
